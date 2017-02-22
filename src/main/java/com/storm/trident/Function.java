@@ -110,7 +110,7 @@ public class Function {
 			LOGGER.error("ALERT RECEIVED [" + alert + "]");
 			LOGGER.error("Dispatch the national guard!");
 			//  结束程序
-			System.exit(0);
+//			System.exit(0);
 		}
 
 	}

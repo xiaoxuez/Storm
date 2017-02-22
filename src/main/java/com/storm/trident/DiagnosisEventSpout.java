@@ -59,7 +59,7 @@ public class DiagnosisEventSpout implements ITridentSpout<Long>{
 		 */
 		private static final long serialVersionUID = 1L;
 		// 线程安全的原子操作Integer的类
-		AtomicInteger successfulTransactions = new AtomicInteger(0);
+		public static AtomicInteger successfulTransactions = new AtomicInteger(0);
 		/**
 		 * 打包发射tuple，参数包括事务信息，batch元数据，和用来发射的collector
 		 */

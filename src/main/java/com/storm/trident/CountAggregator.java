@@ -22,6 +22,7 @@ public class CountAggregator implements CombinerAggregator<Long>{
 	@Override
 	public Long init(TridentTuple tuple) {
 		// TODO Auto-generated method stub
+		System.out.println("tuple = "+ tuple.getFields());
 		return 1L;
 	}
 

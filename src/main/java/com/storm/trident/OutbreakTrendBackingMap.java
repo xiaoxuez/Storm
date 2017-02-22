@@ -19,6 +19,9 @@ public class OutbreakTrendBackingMap implements IBackingMap<Long> {
 	 * 这里的数据其实是存在了storage里，实际上并没有固话存储，然而BackingMap是一个非常巧妙的抽象，只需要将传入MapState对象的backing map的实例替换就可以更换持久层的实现
 	 */
 
+	/**
+	 * 一批tuples的结果
+	 */
 	public List<Long> multiGet(List<List<Object>> keys) {
 		List<Long> values = new ArrayList<>();
 		for (List key : keys) {
