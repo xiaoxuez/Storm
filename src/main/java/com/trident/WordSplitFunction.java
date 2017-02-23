@@ -1,4 +1,4 @@
-package com.partition;
+package com.trident;
 
 import java.util.Map;
 

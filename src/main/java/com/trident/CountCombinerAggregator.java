@@ -1,4 +1,4 @@
-package com.partition;
+package com.trident;
 
 import java.util.HashMap;
 import java.util.Map;

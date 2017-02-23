@@ -1,14 +1,28 @@
-package com.partition;
+package com.trident;
 
 import backtype.storm.Config;
 import backtype.storm.LocalCluster;
 import backtype.storm.tuple.Fields;
 import storm.trident.Stream;
+import storm.trident.TridentState;
 import storm.trident.TridentTopology;
 import storm.trident.operation.builtin.Count;
+import storm.trident.operation.builtin.MapGet;
+import storm.trident.testing.MemoryMapState;
 import trident.test.Utils;
 
-public class TestTopology {
+public class WordCountTopology {
+	
+	public static TridentState getWordCountState() {
+		TridentTopology  topology = new TridentTopology();
+		TridentState state = topology.newStream("sentence-spout", new WordSpout())
+			.parallelismHint(3)
+			.each(new Fields("sentence"), new WordSplitFunction(), new Fields("word"))
+			.shuffle()
+			.groupBy(new Fields("word"))
+			.persistentAggregate(new MemoryMapState.Factory(), new Count(), new Fields("count"));
+		return state;
+	}
 	public static void main(String[] args) {
 		TridentTopology topology = new TridentTopology();
 		topology.newStream("sentence-spout", new WordSpout())

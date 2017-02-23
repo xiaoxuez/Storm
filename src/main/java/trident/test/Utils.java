@@ -8,6 +8,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import backtype.storm.Config;
+import backtype.storm.LocalCluster;
+import backtype.storm.StormSubmitter;
+import backtype.storm.generated.AlreadyAliveException;
+import backtype.storm.generated.InvalidTopologyException;
+import backtype.storm.generated.StormTopology;
 import storm.trident.operation.Filter;
 import storm.trident.operation.TridentOperationContext;
 import storm.trident.tuple.TridentTuple;
@@ -58,5 +64,34 @@ public class Utils {
 			toReturn.put(entry.getKey(), entry.getValue());
 		}
 		return toReturn;
+	}
+	
+	
+	
+	public static void submitTopology(StormTopology topology, String name) {
+		submitTopology(topology, name, false);
+	}
+	
+	public static void submitTopology(StormTopology topology) {
+		submitTopology(topology, "messages-to-operation", true);
+	}
+	
+	public static void submitTopology(StormTopology topology, String name, boolean isLocal) {
+		Config config = new Config();
+		config.setDebug(false);
+		if(isLocal) {
+			LocalCluster cluster = new LocalCluster();
+			cluster.submitTopology("messages-to-operation", config,topology);
+		} else {
+			try {
+				StormSubmitter.submitTopologyWithProgressBar(name, config, topology);
+			} catch (AlreadyAliveException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InvalidTopologyException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 }
